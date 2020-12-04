@@ -16,8 +16,6 @@ def is_expiration_year?(i)
     return false
 end
 
-puts is_expiration_year?("1967")
-
 def is_valid_height?(i)
     return false if not /in|cm/.match(i)
     cm = false
@@ -45,9 +43,6 @@ def is_valid_passport_id?(i)
     return true if /^\d{9}$/.match(i)
     return false
 end
-
-puts is_valid_eye_color?("brn")
-puts is_valid_eye_color?("wat")
 
 class Passport
     attr_accessor :byr, :iyr, :eyr, :hgt, :hcl, :ecl, :pid, :cid
@@ -106,8 +101,6 @@ lines.each do |line|
         passports << p
         counter += 1 if p.is_valid?
         strict_counter += 1 if p.is_strictly_valid?
-        p p if p.is_strictly_valid?
-
         byr, iyr, eyr, hgt, hcl, ecl, pid, cid = nil, nil, nil, nil, nil, nil, nil, nil
     end
     line.split(" ").each do |entry|
