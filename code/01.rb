@@ -10,3 +10,14 @@ lines.each do |line|
     end
   end
 end
+
+
+lines.each do |line|
+  lines.each do |line2|
+    lines.each do |line3|
+      if line + line2 + line3 == 2020
+        puts line * line2 * line3
+      end
+    end
+  end
+end
