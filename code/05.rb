@@ -17,19 +17,19 @@ lines.each do |line|
   row_bin = row.to_i(2)
   seat_bin = seat.to_i(2)
 
-  ids << row_bin * 8 + seat_bin
-  passes << {id: row_bin * 8 + seat_bin,
+  id = row_bin * 8 + seat_bin
+
+  ids << id
+  passes << {id: id,
           seat: seat_bin,
           row: row_bin}
 end
 
-p passes.max_by{|pass|pass[:id]}
-
-passes.sort_by! { |pass | pass[:id] }
+p passes.sort_by! { |pass | pass[:id] }.last
 
 a = passes.first[:id]
 b = passes.last[:id]
 
-all = (a..b).to_a
+possible_ids = (a..b).to_a
 
-puts all-ids
+p missing_ids = (possible_ids-ids)
