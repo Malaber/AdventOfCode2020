@@ -21,13 +21,14 @@ def get_trees(lines, right, down)
     x += right
   end
 
+  puts "r = #{right} d = #{down} --> #{counter} "
   return counter
 end
 
-puts a = get_trees(lines, 1, 1)
-puts b = get_trees(lines, 3, 1)
-puts c = get_trees(lines, 5, 1)
-puts d = get_trees(lines, 7, 1)
-puts e = get_trees(lines, 1, 2)
+a = get_trees(lines, 1, 1)
+b = get_trees(lines, 3, 1)
+c = get_trees(lines, 5, 1)
+d = get_trees(lines, 7, 1)
+e = get_trees(lines, 1, 2)
 
 puts a * b * c * d * e
