@@ -2,6 +2,7 @@ require_relative '../input'
 lines = get_lines $PROGRAM_NAME
 
 ids = []
+passes = []
 
 lines.each do |line|
   row = line[0..6]
@@ -17,6 +18,18 @@ lines.each do |line|
   seat_bin = seat.to_i(2)
 
   ids << row_bin * 8 + seat_bin
+  passes << {id: row_bin * 8 + seat_bin,
+          seat: seat_bin,
+          row: row_bin}
 end
 
-p ids.max
+p passes.max_by{|pass|pass[:id]}
+
+passes.sort_by! { |pass | pass[:id] }
+
+a = passes.first[:id]
+b = passes.last[:id]
+
+all = (a..b).to_a
+
+puts all-ids
