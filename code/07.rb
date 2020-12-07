@@ -34,3 +34,8 @@ end
 contains_golden_bag(golden_shiny_bag, rules, can_contain_golden_bag)
 
 p can_contain_golden_bag.map{|b|b[:bag_color]}.uniq.count
+
+p rules
+def how_many_bags_are_in_the_bag(bag, rules)
+
+end
