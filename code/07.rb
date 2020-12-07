@@ -35,22 +35,17 @@ contains_golden_bag(golden_shiny_bag, rules, can_contain_golden_bag)
 
 p can_contain_golden_bag.map{|b|b[:bag_color]}.uniq.count
 
-p rules
-
 def how_many_bags_are_in_the_bag(bag, rules)
-  inside = 1
+  inside = 0
+  bag_itself = 1
   inside_bags = bag[:inside_bags]
   inside_bags.each do |inside_bag|
-    if inside_bag[:amount].nil?
-
-    else
-      inside_bag_as_bag = rules.find{|r|
-        r[:bag_color] == inside_bag[:bag_color]
-      }
-      inside += (inside_bag[:amount].to_i * how_many_bags_are_in_the_bag(inside_bag_as_bag, rules))
+    unless inside_bag[:amount].nil?
+      inside_bag_from_rules = rules.find{|r| r[:bag_color] == inside_bag[:bag_color] }
+      inside += (inside_bag[:amount].to_i * how_many_bags_are_in_the_bag(inside_bag_from_rules, rules))
     end
   end
-  return inside
+  return inside + bag_itself
 end
 
 p how_many_bags_are_in_the_bag(golden_shiny_bag, rules) - 1
