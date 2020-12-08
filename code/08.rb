@@ -3,14 +3,19 @@ require_relative 'handheld/Instruction'
 require_relative 'handheld/Computer'
 lines = get_lines $PROGRAM_NAME
 
-instructions = []
+original_instructions = []
 
 lines.each do |line|
   cmd, value = line.split(" ")
   instruction = Instruction.new(cmd, value.to_i, false)
-  instructions << instruction
+  original_instructions << instruction
 end
 
-computer = Computer.new(instructions)
+computer = Computer.new(original_instructions)
 
-computer.run!
+begin
+  computer.run!
+rescue Exception => e
+  print e
+end
+
