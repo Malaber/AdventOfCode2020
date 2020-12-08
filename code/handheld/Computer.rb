@@ -40,7 +40,7 @@ class Computer
 
     lines.each do |line|
       cmd, value = line.split(" ")
-      instruction = Instruction.new(cmd, value.to_i, 0)
+      instruction = Instruction.new(cmd, value.to_i)
       instructions << instruction
     end
     return instructions

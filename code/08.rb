@@ -49,10 +49,10 @@ original_instructions.each_with_index do |instruction, index|
   new_instruction_set = original_instructions.dup.map(&:dup)
   case new_instruction_set[index].cmd
   when "nop"
-    new_instruction_set[index] = Instruction.new("jmp", new_instruction_set[index].value, new_instruction_set[index].run_times)
+    new_instruction_set[index] = Instruction.new("jmp", new_instruction_set[index].value)
     new_instruction_sets << {set: new_instruction_set, name: "Index #{index} changed from nop to jmp"}
   when "jmp"
-    new_instruction_set[index] = Instruction.new("nop", new_instruction_set[index].value, new_instruction_set[index].run_times)
+    new_instruction_set[index] = Instruction.new("nop", new_instruction_set[index].value)
     new_instruction_sets << {set: new_instruction_set, name: "Index #{index} changed from jmp to nop"}
   end
 end
