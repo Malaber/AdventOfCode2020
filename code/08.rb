@@ -1,10 +1,8 @@
 require_relative '../input'
 require_relative 'handheld/Instruction'
+require_relative 'handheld/Computer'
 lines = get_lines $PROGRAM_NAME
 
-running = true
-acc = 0
-pointer = 0
 instructions = []
 
 lines.each do |line|
@@ -13,12 +11,6 @@ lines.each do |line|
   instructions << instruction
 end
 
-while running
-  instruction = instructions[pointer]
+computer = Computer.new(instructions)
 
-  if instruction.nil?
-    raise(Exception.new("Out of Bounds"))
-  end
-
-  pointer, acc = instruction.run!(pointer, acc)
-end
+computer.run!
