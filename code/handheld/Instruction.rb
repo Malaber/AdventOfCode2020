@@ -1,15 +1,17 @@
-class Instruction
-  attr_accessor :cmd, :value, :already_ran
+require_relative 'Exceptions'
 
-  def initialize(cmd, value, already_ran)
+class Instruction
+  attr_accessor :cmd, :value, :run_times
+
+  def initialize(cmd, value, run_times)
     @cmd = cmd
     @value = value
-    @already_ran = already_ran
+    @run_times = run_times
   end
 
   def run!(pointer, acc)
 
-    raise("I ran, pointer: #{pointer}, acc: #{acc}") if @already_ran
+    raise(ComputerError.new("Instruction ran twice, pointer: #{pointer}, acc: #{acc}")) unless @run_times.zero?
 
     case @cmd
     when "nop"
@@ -20,11 +22,11 @@ class Instruction
       pointer += @value
       return pointer, acc
     else
-      raise(Exception.new("Unknown Command"))
+      raise(ComputerError.new("Unknown Command"))
     end
 
     pointer += 1
-    @already_ran = true
+    @run_times +=1
 
     return pointer, acc
   end
