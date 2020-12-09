@@ -18,7 +18,7 @@ class Computer
       instruction_with_metadata = @instructions[pointer]
 
       if instruction_with_metadata.nil?
-        return 0 if pointer == @correct_exit_code
+        return 0, acc, pointer if pointer == @correct_exit_code
 
         raise(ComputerError.new("Out of Bounds"))
       end

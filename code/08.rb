@@ -31,8 +31,8 @@ end
 new_instruction_sets.each do |set|
   computer = Computer.new(set[:set], set[:name])
   begin
-    exit_code = computer.run!
-    puts computer.name if exit_code.zero?
+    exit_code, acc, pointer = computer.run!
+    puts "#{computer.name}; acc: #{acc}; pointer: #{pointer}" if exit_code.zero?
   rescue ComputerError => e
     # print e
   end
