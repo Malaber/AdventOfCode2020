@@ -1,7 +1,7 @@
 require_relative 'Instruction'
 require_relative 'Exceptions'
 class Computer
-  attr_accessor :instructions, :correct_exit_code
+  attr_accessor :instructions, :correct_exit_code, :name
 
   def initialize(instructions, name)
     @instructions = get_instructions_from_lines(instructions)
@@ -10,28 +10,28 @@ class Computer
   end
 
   def run!
-    if @name == "Changed index 2 from jmp to nop"
-      puts
-    end
-
     running = true
     acc = 0
     pointer = 0
 
     while running
-      instruction = @instructions[pointer]
+      instruction_with_metadata = @instructions[pointer]
 
-      if instruction.nil?
+      if instruction_with_metadata.nil?
         return 0 if pointer == @correct_exit_code
 
         raise(ComputerError.new("Out of Bounds"))
       end
 
-      begin
-        pointer, acc = instruction.run!(pointer, acc)
-      rescue ComputerError => e
-        raise(ComputerError.new("Computer '#{@name}' failed with '#{e}'\n"))
+      instruction = instruction_with_metadata[:instruction]
+      run_times = instruction_with_metadata[:run_times]
+
+      if run_times > 0
+        raise(ComputerError.new("Computer '#{@name}' failed with 'Instruction ran twice, pointer: #{pointer}, acc: #{acc}'\n"))
       end
+
+      pointer, acc = instruction.run!(pointer, acc)
+      instruction_with_metadata[:run_times] += 1
     end
   end
 
@@ -41,7 +41,7 @@ class Computer
     lines.each do |line|
       cmd, value = line.split(" ")
       instruction = Instruction.new(cmd, value.to_i)
-      instructions << instruction
+      instructions << {instruction: instruction, run_times: 0}
     end
     return instructions
   end

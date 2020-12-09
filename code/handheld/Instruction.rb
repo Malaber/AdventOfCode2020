@@ -6,12 +6,9 @@ class Instruction
   def initialize(cmd, value)
     @cmd = cmd
     @value = value
-    @run_times = 0
   end
 
   def run!(pointer, acc)
-
-    raise(ComputerError.new("Instruction ran twice, pointer: #{pointer}, acc: #{acc}")) unless @run_times.zero?
 
     case @cmd
     when "nop"
@@ -26,7 +23,6 @@ class Instruction
     end
 
     pointer += 1
-    @run_times +=1
 
     return pointer, acc
   end
