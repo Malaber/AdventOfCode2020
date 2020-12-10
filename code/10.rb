@@ -40,19 +40,38 @@ dif = get_difference_array_for_lines(lines)
 
 p dif[1] * dif[3]
 
-permutations = []
-p lines.size
-lines.size.times do |i|
-  permutations << lines.permutation(i + 1).to_a
+def get_following_possibilities(index, voltages)
+  possibilities = 0
+  connectable_voltages = voltages[index..index+2].select{|i| i <= voltages[index]+ 3 && i != voltages[index] }
+  return 1 if connectable_voltages.size.zero?
+  connectable_voltages.each do |voltage|
+    possibilities += get_following_possibilities(voltages.index(voltage), voltages)
+  end
+  return possibilities
 end
 
-sum = 0
-permutations.flatten(1).each do |permutation|
-  begin
-    get_difference_array_for_lines(permutation)
-    sum += 1
-  rescue
-    JoltageError
-  end
+def get_all_possible_combinations(lines)
+  voltages = lines.dup.unshift(CHARGING_OUTLET_VOLTAGE)
+  voltages.append(@device_joltage)
+
+  get_following_possibilities(0, voltages)
 end
-p sum
+
+p get_all_possible_combinations(lines)
+
+# permutations = []
+# p lines.size
+# lines.size.times do |i|
+#   permutations << lines.permutation(i + 1).to_a
+# end
+#
+# sum = 0
+# permutations.flatten(1).each do |permutation|
+#   begin
+#     get_difference_array_for_lines(permutation)
+#     sum += 1
+#   rescue
+#     JoltageError
+#   end
+# end
+# p sum
