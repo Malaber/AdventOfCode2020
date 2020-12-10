@@ -3,26 +3,32 @@ require_relative 'handheld/Instruction'
 require_relative 'handheld/Computer'
 lines = get_lines $PROGRAM_NAME
 
-CHARGING_OUTLET_VOLTAGE = 0
-dif = [0,0,0,0]
-
 lines.map!(&:to_i).sort!
 
-device_built_in_joltage = lines.max + 3
+CHARGING_OUTLET_VOLTAGE = 0
+@device_joltage = lines.max + 3
 
 def get_difference_to_next(voltages, index)
   voltage = voltages[index]
   next_voltage = voltages[index + 1]
-  return 3  if next_voltage.nil?
+  return 0 if next_voltage.nil?
 
   next_voltage - voltage
 end
 
-voltages = lines.dup.unshift(CHARGING_OUTLET_VOLTAGE)
+def get_difference_array_for_lines(lines)
+  dif = [0, 0, 0, 0]
 
-voltages.each_with_index do |voltage, index|
-  difference = get_difference_to_next(voltages, index)
-  dif[difference] += 1
+  voltages = lines.dup.unshift(CHARGING_OUTLET_VOLTAGE)
+  voltages.append(@device_joltage)
+
+  voltages.each_with_index do |voltage, index|
+    difference = get_difference_to_next(voltages, index)
+    dif[difference] += 1
+  end
+  dif
 end
+
+dif = get_difference_array_for_lines(lines)
 
 p dif[1] * dif[3]
