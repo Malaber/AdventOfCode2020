@@ -10,3 +10,7 @@ require_relative 'handheld/Instruction'
 require_relative 'handheld/Computer'
 lines = get_lines $PROGRAM_NAME
 ")}
+File.open(".gitlab-ci.yml", "w"){|f| f.puts("
+day_#{script_number}:
+  <<: *ruby_template
+")}
