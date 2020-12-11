@@ -40,14 +40,21 @@ dif = get_difference_array_for_lines(lines)
 
 p dif[1] * dif[3]
 
+@possibility_cache = Array.new(lines.size + 2)
+
 def get_following_possibilities(index, voltages)
-  possibilities = 0
-  connectable_voltages = voltages[index..index+3].select{|i| i <= voltages[index]+ 3 && i != voltages[index] }
-  return 1 if connectable_voltages.size.zero?
-  connectable_voltages.each do |voltage|
-    possibilities += get_following_possibilities(voltages.index(voltage), voltages)
+  if @possibility_cache[index].nil?
+    possibilities = 0
+    connectable_voltages = voltages[index..index+3].select{|i| i <= voltages[index]+ 3 && i != voltages[index] }
+    return 1 if connectable_voltages.size.zero?
+    connectable_voltages.each do |voltage|
+      possibilities += get_following_possibilities(voltages.index(voltage), voltages)
+    end
+    @possibility_cache[index] = possibilities
+    return possibilities
+  else
+    return @possibility_cache[index]
   end
-  return possibilities
 end
 
 def get_all_possible_combinations(lines)
