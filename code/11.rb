@@ -30,7 +30,7 @@ def get_new_seat_occupancy(rows, row_index, seat_index)
   when "."
     #Floor (.) never changes; seats don't move, and nobody sits on the floor.
   when "#"
-    return "L" if adjacent_occupied_seats_amount >= 4 #If a seat is occupied (#) and four or more seats adjacent to it are also occupied, the seat becomes empty.
+    return "L" if adjacent_occupied_seats_amount >= @tolerance_level #If a seat is occupied (#) and four or more seats adjacent to it are also occupied, the seat becomes empty.
   when "L"
     return "#" if adjacent_occupied_seats_amount.zero? #If a seat is empty (L) and there are no occupied seats adjacent to it, the seat becomes occupied.
   else
@@ -52,17 +52,21 @@ def apply_floor_rules(rows)
   return new_rows, something_changed
 end
 
-running = true
-while running
-  rows, something_changed = apply_floor_rules(rows)
-  # rows.each do |row|
-  #   row.each do |seat|
-  #     print seat
-  #   end
-  #   puts
-  # end
-  # p "-----------------------------"
-  running = false unless something_changed
+def get_occupied_seats_after_nothing_changes(rows)
+  running = true
+  while running
+    rows, something_changed = apply_floor_rules(rows)
+    # rows.each do |row|
+    #   row.each do |seat|
+    #     print seat
+    #   end
+    #   puts
+    # end
+    # p "-----------------------------"
+    running = false unless something_changed
+  end
+  rows.flatten.count("#")
 end
 
-puts rows.flatten.count("#")
+@tolerance_level = 4
+puts get_occupied_seats_after_nothing_changes(rows)
