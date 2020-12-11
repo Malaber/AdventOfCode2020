@@ -1,0 +1,39 @@
+stages:
+  - AdventOfCode
+
+.ruby: &ruby_template
+  image: ruby:2.7
+  script:
+    - file=$(echo $CI_JOB_NAME | grep -o "[0-9][0-9]")
+    - ruby code/$file.rb
+  stage: AdventOfCode
+
+day_01:
+  <<: *ruby_template
+
+day_02:
+  <<: *ruby_template
+
+day_03:
+  <<: *ruby_template
+
+day_04:
+  <<: *ruby_template
+
+day_05:
+  <<: *ruby_template
+
+day_06:
+  <<: *ruby_template
+
+day_07:
+  <<: *ruby_template
+
+day_08:
+  <<: *ruby_template
+
+day_09:
+  <<: *ruby_template
+
+day_10:
+  <<: *ruby_template
