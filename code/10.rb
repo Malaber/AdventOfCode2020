@@ -42,7 +42,7 @@ p dif[1] * dif[3]
 
 def get_following_possibilities(index, voltages)
   possibilities = 0
-  connectable_voltages = voltages[index..index+2].select{|i| i <= voltages[index]+ 3 && i != voltages[index] }
+  connectable_voltages = voltages[index..index+3].select{|i| i <= voltages[index]+ 3 && i != voltages[index] }
   return 1 if connectable_voltages.size.zero?
   connectable_voltages.each do |voltage|
     possibilities += get_following_possibilities(voltages.index(voltage), voltages)
