@@ -1,5 +1,6 @@
 require_relative 'Instruction'
-require_relative 'Exceptions'
+require_relative '../Exceptions'
+
 class Computer
   attr_accessor :instructions, :correct_exit_code, :name
 
