@@ -70,3 +70,38 @@ end
 
 @tolerance_level = 4
 puts get_occupied_seats_after_nothing_changes(rows)
+
+def get_array_value(array, i)
+  # i don't want to deal with negative array indexes
+  return array[i] unless i < 0
+  return nil
+end
+
+def get_next_seat_in_direction(row_off, seat_off, row_index, seat_index, rows)
+  i = 1
+  while true
+    next_row = get_array_value(rows, row_index + (row_off * i))
+    return "-" if next_row.nil?
+    next_seat = get_array_value(next_row, seat_index + (seat_off * i))
+    return "." if next_seat.nil?
+    break unless next_seat == "."
+    i += 1
+  end
+  next_seat
+end
+
+def get_adjacent_occupied_seats_amount(rows, row_index, seat_index)
+  adjacent_seats = 0
+  (-1..1).each do |row_off|
+    (-1..1).each do |seat_off|
+      next if row_off.zero? and seat_off.zero?
+
+      seat = get_next_seat_in_direction(row_off, seat_off, row_index, seat_index, rows)
+      adjacent_seats += 1 if seat == "#"
+    end
+  end
+  adjacent_seats
+end
+
+@tolerance_level = 5
+puts get_occupied_seats_after_nothing_changes(rows)
