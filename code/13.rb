@@ -33,11 +33,11 @@ def check_timestamp(t, buses)
 end
 
 def get_t(buses)
-  first_bus = buses.first
-  t = first_bus
+  max_bus = buses.max_by{|x| x=="x" ? 0 : x}
+  t_at_max = max_bus
   loop do
-    return t if check_timestamp(t, buses)
-    t += first_bus
+    return t_at_max if check_timestamp(t_at_max-buses.index(max_bus), buses)
+    t_at_max += max_bus
   end
 end
 
