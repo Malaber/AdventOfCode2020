@@ -43,3 +43,6 @@ day_11:
 
 day_12:
   <<: *ruby_template
+
+day_13:
+  <<: *ruby_template
