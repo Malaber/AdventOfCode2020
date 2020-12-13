@@ -4,11 +4,13 @@ require_relative 'handheld/Computer'
 lines = get_lines $PROGRAM_NAME
 
 arrival_time = lines.first.to_i
-buses = lines.last.split(",").select{ |x| x != "x"}.map(&:to_i)
+buses = lines.last.split(",").map{|bus| bus == "x" ? "x" : bus.to_i }
 
 departures = {}
 
 buses.each do |bus|
+  next if bus == "x"
+
   earliest_departure = 0
   until arrival_time <= earliest_departure
     earliest_departure += bus
