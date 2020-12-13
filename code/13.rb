@@ -22,3 +22,24 @@ end
 bus_id, departure_time = departures.min_by{|k,v| v}
 
 puts bus_id * (departure_time - arrival_time)
+
+def check_timestamp(t, buses)
+  buses.each_with_index do |bus, index|
+    next if bus == "x"
+
+    return false if t%bus != index
+  end
+  return true
+end
+
+def get_t(buses)
+  t = buses.first
+  loop do
+    return t if check_timestamp(t, buses)
+    t + buses.first
+  end
+end
+
+t = get_t(buses)
+exit 0 if t == 1068781
+exit 1
