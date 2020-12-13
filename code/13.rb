@@ -43,5 +43,3 @@ end
 
 t = get_t(buses)
 p t
-exit 0 if t == 1068781
-exit 1
