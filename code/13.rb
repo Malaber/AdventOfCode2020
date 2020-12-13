@@ -27,19 +27,21 @@ def check_timestamp(t, buses)
   buses.each_with_index do |bus, index|
     next if bus == "x"
 
-    return false if t%bus != index
+    return false unless ((t+index)%bus).zero?
   end
   return true
 end
 
 def get_t(buses)
-  t = buses.first
+  first_bus = buses.first
+  t = first_bus
   loop do
     return t if check_timestamp(t, buses)
-    t + buses.first
+    t += first_bus
   end
 end
 
 t = get_t(buses)
+p t
 exit 0 if t == 1068781
 exit 1
