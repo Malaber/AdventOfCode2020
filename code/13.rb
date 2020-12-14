@@ -47,5 +47,5 @@ def get_t(bus_hashes_with_delay)
   end
 end
 
-t = get_t(bus_hashes_with_delay)
-p t
+#t = get_t(bus_hashes_with_delay)
+#p t
