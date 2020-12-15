@@ -27,7 +27,7 @@ numbers.each_with_index do |number, index|
   i = index
 end
 
-while i < 2019 do
+while i < 50000 do
   i += 1
   number = get_next_number_to_say(@mem)
   say!(number, i)
