@@ -18,23 +18,27 @@ def say!(number, turn)
   end
 end
 
-def get_next_number_to_say(mem, mem_last)
-  last_spoken_number, last_spoken_number_index = mem.max_by{|k,v| v}
-  unused_number, previous_index_of_last_spoken_number = mem_last.filter{|k,v| k==last_spoken_number and v != last_spoken_number_index}.max_by{|k,v| v}
+def get_next_number_to_say(mem, mem_last, last_number, last_index)
+  last_spoken_number = last_number
+  last_spoken_number_index = last_index
+  previous_index_of_last_spoken_number = mem_last[last_spoken_number]
   return 0 if previous_index_of_last_spoken_number.nil?
 
   return last_spoken_number_index - previous_index_of_last_spoken_number
 end
 
 i = 0
+last_number = nil
 
 numbers.each_with_index do |number, index|
   say!(number, index)
+  last_number = number
   i = index
 end
 
 while i < 50000 do
   i += 1
-  number = get_next_number_to_say(@mem, @mem_last)
+  number = get_next_number_to_say(@mem, @mem_last, last_number, i - 1)
   say!(number, i)
+  last_number = number
 end
