@@ -6,15 +6,21 @@ lines = get_lines $PROGRAM_NAME
 numbers = lines.first.split(",").map(&:to_i)
 
 @mem = {}
+@mem_last = {}
 
 def say!(number, turn)
-  puts "#{turn + 1}: #{number}" if turn + 1 == 2020
-  @mem[turn] = number
+  puts "#{turn + 1}: #{number}" if turn + 1 == 2020 or turn + 1 == 30000000 or turn % 10000 == 0
+  if @mem[number].nil?
+    @mem[number] = turn
+  else
+    @mem_last[number] = @mem[number]
+    @mem[number] = turn
+  end
 end
 
-def get_next_number_to_say(mem)
-  last_spoken_number_index, last_spoken_number = mem.max_by{|k,v| k}
-  previous_index_of_last_spoken_number, unused_number = mem.filter{|k,v| v==last_spoken_number and k != last_spoken_number_index}.max_by{|k,v| k}
+def get_next_number_to_say(mem, mem_last)
+  last_spoken_number, last_spoken_number_index = mem.max_by{|k,v| v}
+  unused_number, previous_index_of_last_spoken_number = mem_last.filter{|k,v| k==last_spoken_number and v != last_spoken_number_index}.max_by{|k,v| v}
   return 0 if previous_index_of_last_spoken_number.nil?
 
   return last_spoken_number_index - previous_index_of_last_spoken_number
@@ -29,6 +35,6 @@ end
 
 while i < 50000 do
   i += 1
-  number = get_next_number_to_say(@mem)
+  number = get_next_number_to_say(@mem, @mem_last)
   say!(number, i)
 end
