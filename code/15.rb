@@ -9,7 +9,7 @@ numbers = lines.first.split(",").map(&:to_i)
 @mem_last = {}
 
 def say!(number, turn)
-  puts "#{turn + 1}: #{number}" if turn + 1 == 2020 or turn + 1 == 30000000 or turn % 10000 == 0
+  puts "#{turn + 1}: #{number}" if turn + 1 == 2020 or turn + 1 == 30000000
   if @mem[number].nil?
     @mem[number] = turn
   else
@@ -36,7 +36,7 @@ numbers.each_with_index do |number, index|
   i = index
 end
 
-while i < 50000 do
+while i < 30000000 do
   i += 1
   number = get_next_number_to_say(@mem, @mem_last, last_number, i - 1)
   say!(number, i)
