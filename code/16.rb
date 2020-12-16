@@ -22,7 +22,6 @@ restrictions.each do |full_restriction|
   end
 end
 
-valid_values_by_name.values
 valid_values = valid_values_by_name.values.reduce({}, :merge)
 
 scanning_error_rate = 0
@@ -41,4 +40,49 @@ end
 
 p scanning_error_rate
 
- valid_tickets
+ticket_fields = Array.new(my_ticket.size)
+possible_ticket_fields = valid_values_by_name.keys
+
+def get_possible_ticket_field_for_values(values, valid_values_by_name)
+  possible_ticket_fields = []
+  valid_values_by_name.keys.each do |key|
+    key_is_possible = true
+    valid_values = valid_values_by_name[key]
+    values.each do |value|
+      if valid_values[value].nil?
+        key_is_possible = false
+      end
+    end
+    possible_ticket_fields << key if key_is_possible
+  end
+  possible_ticket_fields
+end
+
+def get_all_ticket_values_for(id, valid_tickets)
+  valid_tickets.map{|t|t[id]}
+end
+
+def get_ticket_field(id, valid_tickets, valid_values_by_name)
+  values = get_all_ticket_values_for(id, valid_tickets)
+  field = get_possible_ticket_field_for_values(values, valid_values_by_name)
+  field
+end
+
+ticket_fields.each_with_index do |field, id|
+  ticket_fields[id] = get_ticket_field(id, valid_tickets, valid_values_by_name)
+end
+
+p ticket_fields
+
+while ticket_fields.flatten != ticket_fields.flatten.uniq
+  ticket_fields.each_with_index do |field, id|
+    if field.size == 1
+      only_possible_field = field.first
+      ticket_fields.each_with_index do |field2, id2|
+        field2.delete(only_possible_field) unless id == id2
+      end
+    end
+  end
+end
+
+p ticket_fields
