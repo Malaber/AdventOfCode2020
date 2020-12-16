@@ -85,4 +85,13 @@ while ticket_fields.flatten != ticket_fields.flatten.uniq
   end
 end
 
-p ticket_fields
+p ticket_fields.flatten!
+multiply = 1
+
+ticket_fields.each_with_index do |field, id|
+  if field.match /departure/
+    multiply *= my_ticket[id]
+  end
+end
+
+p multiply
