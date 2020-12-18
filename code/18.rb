@@ -5,12 +5,14 @@ lines = get_lines $PROGRAM_NAME
 
 lines.map!(&:strip)
 
-def do_math(line)
+def do_math(line, advanced=false)
   addition_regex = /(\d+ \+ \d+)/
-  until line.count("+").zero?
-    addition = line.match(addition_regex).captures.first
-    a, b = addition.split(/ \+ /)
-    line.sub!(addition_regex, (a.to_i+b.to_i).to_s)
+  if advanced
+    until line.count("+").zero?
+      addition = line.match(addition_regex).captures.first
+      a, b = addition.split(/ \+ /)
+      line.sub!(addition_regex, (a.to_i+b.to_i).to_s)
+    end
   end
   result = nil
   operator = nil
@@ -43,23 +45,31 @@ def do_math(line)
   result
 end
 
-def solve(line)
-  p line
+def solve(line, advanced=false)
+  line
   subline_regex = /\(([^()]+?)\)/
   until line.count("(").zero?
     subline = line.match(subline_regex).captures.first
-    subline_result = solve(subline)
+    subline_result = solve(subline, advanced)
     line.sub!(subline_regex, subline_result.to_s)
   end
-  p line
+  line
 
-  do_math(line)
+  do_math(line, advanced)
 end
 
 sum = 0
 lines.each_with_index do |line, index|
-  p index
   result = solve(line)
+  sum += result
+end
+
+p sum
+
+
+sum = 0
+lines.each_with_index do |line, index|
+  result = solve(line, true)
   sum += result
 end
 
