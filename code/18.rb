@@ -6,6 +6,12 @@ lines = get_lines $PROGRAM_NAME
 lines.map!(&:strip)
 
 def do_math(line)
+  addition_regex = /(\d+ \+ \d+)/
+  until line.count("+").zero?
+    addition = line.match(addition_regex).captures.first
+    a, b = addition.split(/ \+ /)
+    line.sub!(addition_regex, (a.to_i+b.to_i).to_s)
+  end
   result = nil
   operator = nil
   line.split(/\s+/).each do |ins|
