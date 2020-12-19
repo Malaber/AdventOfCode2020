@@ -58,3 +58,6 @@ day_16:
 
 day_18:
   <<: *ruby_template
+
+day_17:
+  <<: *ruby_template
